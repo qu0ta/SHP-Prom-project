@@ -8,3 +8,10 @@ def home_view(request: WSGIRequest):
         'username': 'TEST USERNAME',
     }
     return render(request, 'pages/home.html', context)
+
+
+def about_view(request: WSGIRequest):
+    context = {
+        'page_title': 'О нас',
+    }
+    return render(request, 'pages/about.html', context)
