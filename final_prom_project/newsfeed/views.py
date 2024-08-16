@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from django.core.handlers.wsgi import WSGIRequest
 
-# Create your views here.
+
+def home_view(request: WSGIRequest):
+    context = {
+        'page_title': 'Главная',
+        'username': 'TEST USERNAME',
+    }
+    return render(request, 'pages/home.html', context)
