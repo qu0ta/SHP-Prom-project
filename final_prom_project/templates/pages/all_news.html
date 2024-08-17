@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load media_tags %}
+{% block title %} {{page_title}} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <p class="fs-1 text-center my-3">Все последние новости:</p>
+    {% if news %}
+        <div class="row">
+            {% for article in news %}
+            <div class="col-md-4 my-4">
+                <div class="card" style="width: 23rem;">
+                    <div class="card-header d-flex justify-content-between">
+                        <div>
+                            <p class="fw-bold">{{article.author.fullname}}</p>
+                        </div>
+                        <div>
+                            <p class="">{{article.created_at}}</p>
+                        </div>
+                    </div>
+                    <img src="..." class="card-img-top" alt="..." width="200px", height="150px">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center fs-3">Новостей пока нет</p>
+    {% endif %}
+</div>
+{%endblock %}

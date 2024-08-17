@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.handlers.wsgi import WSGIRequest
-from .models import News
+from .news_services import get_last_news, get_all_news
 
 
 def home_view(request: WSGIRequest):
@@ -12,7 +12,7 @@ def home_view(request: WSGIRequest):
     else:
         username = "AnonymousUser"
 
-    last_news = _get_last_news(3)
+    last_news = get_last_news(count=3)
     for n in last_news:
         print(n.image.url, 'helllllo')
     context = {
@@ -30,5 +30,10 @@ def about_view(request: WSGIRequest):
     return render(request, 'pages/about.html', context)
 
 
-def _get_last_news(count: int) -> list[News]:
-    return News.objects.all().order_by('-created_at')[:count]
+def all_news_view(request: WSGIRequest):
+    news = get_all_news()
+    context = {
+        'page_title': 'Все новости',
+        'news': news
+    }
+    return render(request, 'pages/all_news.html', context)
