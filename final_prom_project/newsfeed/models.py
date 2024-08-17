@@ -27,3 +27,12 @@ class News(models.Model):
 
     def __str__(self):
         return f"{self.title}, {self.image.url}"
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    news = models.ForeignKey(News, on_delete=models.CASCADE)
+    text = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment: {self.text}"

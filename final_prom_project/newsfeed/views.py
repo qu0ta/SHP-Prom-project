@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.handlers.wsgi import WSGIRequest
-from .news_services import get_last_news, get_all_news, get_news
-
+from .news_services import get_last_news, get_all_news, get_news, get_user_by_user_id, create_comment, get_comments_by_news_id
+from .forms import CommentForm
 
 def home_view(request: WSGIRequest):
     request_user = request.user
@@ -40,8 +40,30 @@ def all_news_view(request: WSGIRequest):
 
 
 def one_news_view(request: WSGIRequest, id: int):
+    
+    user = get_user_by_user_id(request.user.id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment_text = form.cleaned_data['text']
+            news = get_news(news_id=id)
+            create_comment(author=user, news=news, text=comment_text)
+            return redirect(f'/news/{id}')
+        else:
+            errors = form.errors
+            print(errors)
+            return redirect(f'/news/{id}')
+
+    
+    form = CommentForm()
+
+    comments = get_comments_by_news_id(news_id=id)
     concrete = get_news(news_id=id)
-    context = dict()
+    context = {
+        'form': form,
+        'comments': comments,
+    }
+
     if not concrete:
         context['error'] = True
         context['message'] = "Новость не найдена"
@@ -50,4 +72,6 @@ def one_news_view(request: WSGIRequest, id: int):
         page_title = concrete.title
         context['news'] = concrete
     context['page_title'] = page_title
+    context['user'] = user
+
     return render(request, 'pages/one_news.html', context=context)
