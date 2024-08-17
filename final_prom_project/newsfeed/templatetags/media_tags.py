@@ -6,4 +6,5 @@ register = template.Library()
 
 @register.simple_tag
 def media(path):
+    print(path)
     return (settings.MEDIA_ROOT + path)
