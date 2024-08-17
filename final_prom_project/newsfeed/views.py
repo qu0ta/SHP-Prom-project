@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.handlers.wsgi import WSGIRequest
-from .news_services import get_last_news, get_all_news
+from .news_services import get_last_news, get_all_news, get_news
 
 
 def home_view(request: WSGIRequest):
@@ -37,3 +37,17 @@ def all_news_view(request: WSGIRequest):
         'news': news
     }
     return render(request, 'pages/all_news.html', context)
+
+
+def one_news_view(request: WSGIRequest, id: int):
+    concrete = get_news(news_id=id)
+    context = dict()
+    if not concrete:
+        context['error'] = True
+        context['message'] = "Новость не найдена"
+        page_title = "Такой новости нет"
+    else:
+        page_title = concrete.title
+        context['news'] = concrete
+    context['page_title'] = page_title
+    return render(request, 'pages/one_news.html', context=context)
