@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center">
+    <form method="post" class="">
+        {% csrf_token%}
+        <div class="mb-3">
+          <div class="form-text fs-3">Авторизация</div>
+        </div>
+        <div class="mb-3">
+            {{ form.username }}
+          <div class="form-text">Укажите имя пользователя</div>
+        </div>
+        <div class="mb-3">
+            {{ form.password }}
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Запомнить</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+        <a href="{% url 'registration' %}" class="btn btn-primary">Регистрация</a>
+      </form>
+</div>
+{% endblock %}

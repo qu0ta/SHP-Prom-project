@@ -1,7 +1,13 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User as BaseUser
 from django.core.handlers.wsgi import WSGIRequest
-from .news_services import get_last_news, get_all_news, get_news, get_user_by_user_id, create_comment, get_comments_by_news_id
-from .forms import CommentForm
+from django.shortcuts import redirect, render
+
+from .forms import CommentForm, RegisterUserForm
+from .news_services import (create_comment, get_all_news,
+                            get_comments_by_news_id, get_last_news, get_news,
+                            get_user_by_user_id)
+
 
 def home_view(request: WSGIRequest):
     request_user = request.user
@@ -40,7 +46,7 @@ def all_news_view(request: WSGIRequest):
 
 
 def one_news_view(request: WSGIRequest, id: int):
-    
+
     user = get_user_by_user_id(request.user.id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -54,7 +60,6 @@ def one_news_view(request: WSGIRequest, id: int):
             print(errors)
             return redirect(f'/news/{id}')
 
-    
     form = CommentForm()
 
     comments = get_comments_by_news_id(news_id=id)
@@ -75,3 +80,33 @@ def one_news_view(request: WSGIRequest, id: int):
     context['user'] = user
 
     return render(request, 'pages/one_news.html', context=context)
+
+
+def registration_view(request: WSGIRequest):
+    if request.method == 'POST':
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = BaseUser.objects.create_user(
+                username=username, password=password)
+            user.save()
+            login(request, user)
+            return redirect('/')
+
+        errors = form.errors
+        print(errors)
+        return
+
+    form = RegisterUserForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'pages/registration.html', context=context)
+
+
+def login_view(request: WSGIRequest):
+    pass

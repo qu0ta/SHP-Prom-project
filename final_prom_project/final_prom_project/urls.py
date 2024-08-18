@@ -9,4 +9,6 @@ urlpatterns = [
     path('', views.home_view, name='home'),
     path('about/', views.about_view, name='about'),
     path('news/', include('newsfeed.urls')),
+    path('registration/', views.registration_view, name='reg'),
+
 ]
