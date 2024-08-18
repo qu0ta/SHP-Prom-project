@@ -9,6 +9,7 @@ def _author_directory_path(instance, filename):
 
 
 class User(models.Model):
+    username = models.CharField(max_length=100, default='DEFAULT USERNAME')
     fullname = models.CharField(max_length=30)
     birthday = models.DateField()
     email = models.EmailField()

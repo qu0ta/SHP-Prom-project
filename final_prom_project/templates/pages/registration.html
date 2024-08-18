@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ page_title }} {% endblock %}
+
+{% block content %}
+<div class="mx-auto d-flex justify-content-center h-100 align-items-center">
+	<form method="post" class="bg-secondary text-center border rounded p-2 pt-0">
+		{% csrf_token %}
+		<h1 class="fs-1 mb-5 text-light text-center">Регистрация</h1>
+		<p class="fs-3 text-start">Обязательные данные:</p>
+
+		<div class="form-group text-start my-3">
+			<p class="text-light m-0">{{form.username.label}}</p>
+			{{ form.username }}
+		</div>
+
+		<div class="form-group text-start my-3">
+			<p class="text-light m-0">{{form.email.label}}</p>
+			{{ form.email }}
+		</div>
+
+		<div class="form-group text-start my-3">
+			<p class="text-light m-0">{{form.password.label}}</p>
+			{{ form.password }}
+		</div>
+
+		<p class="fs-3 text-start">Дополнительная информация:</p>
+		<div class="form-group text-start my-3">
+			<p class="text-light m-0">{{form.fullname.label}}</p>
+			{{ form.fullname }}
+		</div>
+		<div class="form-group text-start my-3">
+			<p class="text-light m-0">{{form.birthdate.label}}</p>
+			{{ form.birthdate }}
+		</div>
+		<div class="form-group text-start my-3">
+			<p class="text-light m-0">{{form.about.label}}</p>
+			{{ form.about }}
+		</div>
+		<button type="submit" class="btn btn-light ">Зарегистрироваться!</button>
+	</form>
+</div>
+{% endblock %}
+{% block header %}
+{% if auth %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'reg' %}">Регистрация</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'login' %}">Вход</a>
+	</li>
+</ul>
+{% else %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'profile' %}">Профиль</a>
+	</li>
+</ul>
+{% endif %}
+{% endblock %}
