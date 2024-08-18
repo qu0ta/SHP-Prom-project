@@ -4,26 +4,47 @@
 {% block content %}
 
 <div class="container">
-    <p class="text-center fs-1">Привет, {{ username }}!</p>
-    <p class="text-center fs-2">На данном сайте ты найдешь все новости по твоей любимой теме!</p>
+	<p class="text-center fs-1">Привет, {{ username }}!</p>
+	<p class="text-center fs-2">На данном сайте ты найдешь все новости по твоей любимой теме!</p>
 
-    {% if news %}
-        <div class="row">
-        {% for article in news %}
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img src="{% media article.image.url %}" class="card-img-top" alt="..." width="200px", height="150px">
-                <div class="card-body"> 
-                <h5 class="card-title">{{ article.title }}</h5>
-                <p class="card-text">{{ article.description }}...</p>
-                <a href="#" class="btn btn-primary">Открыть новость</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-        </div>
-    {% else %}
-        <p class="text-center fs-3">Новостей пока нет</p>
-    {% endif %}
+	{% if news %}
+	<div class="row">
+		{% for article in news %}
+		<div class="col-md-4">
+			<div class="card" style="width: 18rem;">
+				<img src="{% media article.image.url %}" class="card-img-top" alt="..." width="200px" , height="150px">
+				<div class="card-body">
+					<h5 class="card-title">{{ article.title }}</h5>
+					<p class="card-text">{{ article.description }}...</p>
+					<a href="#" class="btn btn-primary">Открыть новость</a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% else %}
+	<p class="text-center fs-3">Новостей пока нет</p>
+	{% endif %}
 </div>
+{% endblock %}
+{% block header %}
+{% if not auth %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'reg' %}">Регистрация</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'login' %}">Вход</a>
+	</li>
+</ul>
+{% else %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'profile' %}">Профиль</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'logout' %}">Выйти</a>
+	</li>
+</ul>
+{% endif %}
 {% endblock %}

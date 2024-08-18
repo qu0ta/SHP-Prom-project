@@ -1,25 +1,43 @@
 {% extends 'base.html' %}
 
+
+{% block title %} {{ page_title }} {% endblock %}
+
 {% block content %}
-<div class="container d-flex justify-content-center">
-    <form method="post" class="">
-        {% csrf_token%}
-        <div class="mb-3">
-          <div class="form-text fs-3">Авторизация</div>
-        </div>
-        <div class="mb-3">
-            {{ form.username }}
-          <div class="form-text">Укажите имя пользователя</div>
-        </div>
-        <div class="mb-3">
-            {{ form.password }}
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Запомнить</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Войти</button>
-        <a href="{% url 'registration' %}" class="btn btn-primary">Регистрация</a>
-      </form>
+<div class="mx-auto d-flex justify-content-center h-100 align-items-center">
+	<form method="post" class="bg-secondary text-center border rounded p-2 pt-0">
+		{% csrf_token %}
+		<h1 class="fs-1 mb-5 text-light text-center">Авторизация</h1>
+		<div class="form-group text-start my-3">
+			<p class="text-light m-0">{{form.username.label}}</p>
+			{{ form.username }}
+		</div>
+
+		<div class="form-group text-start my-3">
+			<p class="text-light m-0">{{form.password.label}}</p>
+			{{ form.password }}
+		</div>
+
+		<button type="submit" class="btn btn-light ">Войти</button>
+	</form>
 </div>
+{% endblock %}
+
+{% block header %}
+{% if auth %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'reg' %}">Регистрация</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'login' %}">Вход</a>
+	</li>
+</ul>
+{% else %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'profile' %}">Профиль</a>
+	</li>
+</ul>
+{% endif %}
 {% endblock %}
