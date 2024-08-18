@@ -50,7 +50,7 @@ def all_news_view(request: WSGIRequest):
 
 @login_required(login_url='/registration')
 def one_news_view(request: WSGIRequest, id: int):
-	user = get_user_by_user_id(request.user.id)
+	user = get_user_by_username(request.user.id)
 	if request.method == 'POST':
 		form = CommentForm(request.POST)
 		if form.is_valid():
