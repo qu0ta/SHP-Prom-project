@@ -29,7 +29,8 @@
 
 ## Тестирование
 
-Для тестов был выбран фреймворк Django Testing Framework. Для запуска тестов необходимо в корневой папке проекта прописать команду:
+Для тестов был выбран фреймворк Django Testing Framework. 
+Для запуска тестов необходимо в корневой папке проекта прописать команду:
 ` coverage run --source=. --omit='*/migrations/*,*/tests/*' manage.py test`
 А затем, чтобы увидеть покрытие кода:
-`covarage report`
+`coverage report`
