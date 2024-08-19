@@ -139,7 +139,9 @@ def login_view(request: WSGIRequest):
 @login_required(login_url='/registration')
 def profile_view(request: WSGIRequest):
 	user = get_user_by_username(request.user.username)
-	print(user)
+	context = {'user': user}
+	context = check_auth_to_context(request, context)
+	return render(request, 'pages/profile.html', context)
 
 
 @login_required(login_url='/registration')

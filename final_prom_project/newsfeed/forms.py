@@ -37,21 +37,35 @@ class RegisterUserForm(forms.Form):
 	)
 
 	birthdate = forms.DateField(
-		widget=forms.SelectDateWidget(REGISTER_ATTRS)
-	)
+		widget=forms.SelectDateWidget(years=(i for i in range(1940, 2017)), months={
+			1: "Январь",
+			2: "Февраль",
+			3: "Март",
+			4: "Апрель",
+			5: "Май",
+			6: "Июнь",
+			7: "Июль",
+			8: "Август",
+			9: "Сентябрь",
+			10: "Октябрь",
+			11: "Ноябрь",
+			12: "Декабрь"
+		}, attrs=REGISTER_ATTRS))
 
 	about = forms.CharField(
 		widget=forms.Textarea(attrs={'class': 'form-control border-2', 'style': 'height: 130px'})
+
 	)
 
-	def __init__(self, *args, **kwargs):
-		super(forms.Form, self).__init__(*args, **kwargs)
-		self.fields['email'].label = "Электронная почта:"
-		self.fields['username'].label = "Имя пользователя:"
-		self.fields['password'].label = "Пароль:"
-		self.fields['fullname'].label = "Полное имя:"
-		self.fields['birthdate'].label = "Дата рождения:"
-		self.fields['about'].label = "Немного о вас:"
+
+def __init__(self, *args, **kwargs):
+	super(forms.Form, self).__init__(*args, **kwargs)
+	self.fields['email'].label = "Электронная почта:"
+	self.fields['username'].label = "Имя пользователя:"
+	self.fields['password'].label = "Пароль:"
+	self.fields['fullname'].label = "Полное имя:"
+	self.fields['birthdate'].label = "Дата рождения:"
+	self.fields['about'].label = "Немного о вас:"
 
 
 class LoginUserForm(forms.Form):

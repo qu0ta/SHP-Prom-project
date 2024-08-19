@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ page_title }} {% endblock %}
+
+{% block header %}
+{% if not auth %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'reg' %}">Регистрация</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'login' %}">Вход</a>
+	</li>
+</ul>
+{% else %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'profile' %}">Профиль</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link text-light" href="{% url 'logout' %}">Выйти</a>
+	</li>
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="mx-auto d-flex flex-column justify-content-center align-items-center">
+	<h1 class="display-3">Профиль</h1><br>
+	<ul class="list-group w-25">
+		<li class="list-group-item active" aria-current="true">Имя пользователя: {{ user.username }}</li>
+		<li class="list-group-item">Полное имя: {{user.fullname }}</li>
+		<li class="list-group-item">Электронная почта: {{ user.email }}</li>
+		<li class="list-group-item">Дата рождения: {{user.birthday|date:"d.m.Y"  }}</li>
+		<li class="list-group-item">Указанная информация: {{ user.about }}</li>
+	</ul>
+</div>
+
+{% endblock %}
