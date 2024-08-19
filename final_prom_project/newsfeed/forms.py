@@ -1,9 +1,18 @@
+"""
+Модуль определяет формы для работы с новостями.
+
+.. module:: newsfeed.forms
+   :synopsis: Содержит формы для работы с новостями.
+
+.. moduleauthor:: Stanislaw Gupaliuk
+"""
 from django import forms
 
 REGISTER_ATTRS = {'class': 'form-control border-2'}
 
 
 class CommentForm(forms.Form):
+	"""Форма для создания комментария"""
 	text = forms.CharField(
 		widget=forms.TextInput(
 			attrs={"class": "form-control border border-2"}),
@@ -14,6 +23,7 @@ class CommentForm(forms.Form):
 
 
 class RegisterUserForm(forms.Form):
+	"""Форма для регистрации"""
 	username = forms.CharField(
 		widget=forms.TextInput(REGISTER_ATTRS),
 		max_length=100
@@ -59,6 +69,7 @@ class RegisterUserForm(forms.Form):
 
 
 def __init__(self, *args, **kwargs):
+	"""Инициализация формы, присвоение поля label"""
 	super(forms.Form, self).__init__(*args, **kwargs)
 	self.fields['email'].label = "Электронная почта:"
 	self.fields['username'].label = "Имя пользователя:"
@@ -69,6 +80,7 @@ def __init__(self, *args, **kwargs):
 
 
 class LoginUserForm(forms.Form):
+	"""Форма для входа"""
 	username = forms.CharField(
 		widget=forms.TextInput(REGISTER_ATTRS),
 		max_length=100
@@ -79,6 +91,7 @@ class LoginUserForm(forms.Form):
 	)
 
 	def __init__(self, *args, **kwargs):
+		"""Инициализация формы, присвоение поля label"""
 		super(forms.Form, self).__init__(*args, **kwargs)
 		self.fields['username'].label = "Имя пользователя:"
 		self.fields['password'].label = "Пароль:"

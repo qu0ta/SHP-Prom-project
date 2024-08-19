@@ -1,3 +1,12 @@
+"""
+This module contains views for the newsfeed application.
+
+.. module:: newsfeed.views
+   :synopsis: Contains views for the newsfeed application.
+
+.. moduleauthor:: Stanislaw Gupaliuk
+
+"""
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
@@ -8,6 +17,12 @@ from .news_services import *
 
 
 def home_view(request: WSGIRequest):
+	"""
+	Обработчик запроса на главную страницу
+
+	:param request: Объект запроса
+	:return: Объект ответа
+	"""
 	if request.method == 'POST':
 		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
@@ -36,6 +51,12 @@ def home_view(request: WSGIRequest):
 
 
 def about_view(request: WSGIRequest):
+	"""
+	Обработчик запроса на страницу "О нас"
+
+	:param request: Объект запроса
+	:return: Объект ответа
+	"""
 	if request.method == 'POST':
 		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
@@ -54,6 +75,13 @@ def about_view(request: WSGIRequest):
 
 @login_required(login_url='/registration')
 def all_news_view(request: WSGIRequest):
+	"""
+	Обработчик запроса на страницу "Все новости"
+	Требует авторизацию
+
+	:param request: Объект запроса
+	:return: Объект ответа
+	"""
 	if request.method == 'POST':
 		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
@@ -74,6 +102,14 @@ def all_news_view(request: WSGIRequest):
 
 @login_required(login_url='/registration')
 def one_news_view(request: WSGIRequest, id: int):
+	"""
+	Обработчик запроса на страницу одной новости.
+	Требует авторизацию
+
+	:param request: Объект запроса
+	:param id: Идентификатор новости
+	:return: Объект ответа
+	"""
 	user = get_user_by_username(request.user.username)
 	if not user:
 		create_user(username=request.user.username)
@@ -124,6 +160,12 @@ def one_news_view(request: WSGIRequest, id: int):
 
 
 def registration_view(request: WSGIRequest):
+	"""
+	Обработчик запроса на страницу "Регистрация"
+
+	:param request: Объект запроса
+	:return: Объект ответа
+	"""
 	if request.method == 'POST':
 		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
@@ -168,6 +210,11 @@ def registration_view(request: WSGIRequest):
 
 
 def login_view(request: WSGIRequest):
+	"""
+	Обработчик запроса на страницу "Вход"
+	:param request: Объект запроса
+	:return: Объект ответа
+	"""
 	if request.method == 'POST':
 		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
@@ -196,6 +243,14 @@ def login_view(request: WSGIRequest):
 
 @login_required(login_url='/registration')
 def profile_view(request: WSGIRequest):
+	"""
+	Обработчик запроса на страницу "Профиль"
+	Требует Авторизацию
+
+	
+	:param request: Объект запроса
+	:return: Объект ответа
+	"""
 	if request.method == 'POST':
 		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
@@ -214,5 +269,11 @@ def profile_view(request: WSGIRequest):
 
 @login_required(login_url='/registration')
 def logout_view(request: WSGIRequest):
+	"""
+	Обработчик запроса на страницу "Выход"
+	Требует Авторизацию
+	:param request: Объект запроса
+	:return: Объект ответа
+	"""
 	logout(request)
 	return redirect('/')
