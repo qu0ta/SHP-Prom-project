@@ -27,5 +27,4 @@ jobs:
         pip install -r final_prom_project/requirements.txt
     - name: Run Tests
       run: |
-        cd .\final_prom_project\
-        coverage run --source=. --omit='*/migrations/*,*/tests/*' manage.py test
+        cd '.\final_prom_project\' && coverage run --source=. --omit='*/migrations/*,*/tests/*' manage.py test
