@@ -9,7 +9,7 @@ from .news_services import *
 
 def home_view(request: WSGIRequest):
 	if request.method == 'POST':
-		if title := request.POST['news_search']:
+		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
 			context = {
 				'news': news,
@@ -37,7 +37,7 @@ def home_view(request: WSGIRequest):
 
 def about_view(request: WSGIRequest):
 	if request.method == 'POST':
-		if title := request.POST['news_search']:
+		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
 			context = {
 				'news': news,
@@ -55,7 +55,7 @@ def about_view(request: WSGIRequest):
 @login_required(login_url='/registration')
 def all_news_view(request: WSGIRequest):
 	if request.method == 'POST':
-		if title := request.POST['news_search']:
+		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
 			context = {
 				'news': news,
@@ -76,7 +76,7 @@ def all_news_view(request: WSGIRequest):
 def one_news_view(request: WSGIRequest, id: int):
 	user = get_user_by_username(request.user.username)
 	if request.method == 'POST':
-		if title := request.POST['news_search']:
+		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
 			context = {
 				'news': news,
@@ -120,7 +120,7 @@ def one_news_view(request: WSGIRequest, id: int):
 
 def registration_view(request: WSGIRequest):
 	if request.method == 'POST':
-		if title := request.POST['news_search']:
+		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
 			context = {
 				'news': news,
@@ -160,7 +160,7 @@ def registration_view(request: WSGIRequest):
 
 def login_view(request: WSGIRequest):
 	if request.method == 'POST':
-		if title := request.POST['news_search']:
+		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
 			context = {
 				'news': news,
@@ -188,7 +188,7 @@ def login_view(request: WSGIRequest):
 @login_required(login_url='/registration')
 def profile_view(request: WSGIRequest):
 	if request.method == 'POST':
-		if title := request.POST['news_search']:
+		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
 			context = {
 				'news': news,

@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
-{%load media_tags %}
 {% block title %} {{ page_title }} {% endblock %}
 
 {% block content %}
 <div class="container">
 	<div>
 		<h1 class="text-center text-decoration-underline link-underline-secondary">{{ news.title }}</h1>
-		<img src="{{news.image.url}}" alt="{{ news.title }}" class="img-fluid">
+		<img src="{{news.image.url}}" alt="{{ news.title }}" class="img-fluid" width="500px" height="370px">
 		<p class="fs-2 text-end my-5">{{ news.description }}</p>
 	</div>
 	<form method="post">
 		{% csrf_token %}
 		<div class="mb-3">
-			<label for="CommentInput" class="form-label" name="Comment">{{user.fullname}}, как тебе новость?</label>
+			<label class="form-label" name="Comment">{{user.fullname}}, как тебе новость?</label>
 			{{form.text}}
 		</div>
 		<button type="submit" class="btn btn-primary">Отправить</button>
@@ -21,8 +20,8 @@
 	{% for comm in comments %}
 
 	<ul class="list-group text-start my-3" style="width: 450px">
-		<li class="list-group-item active justify-content-between bg-secondary border-secondary" aria-current="true">{{
-			comm.author.fullname }} {{ comm.created_at }}
+		<li class="list-group-item active justify-content-between bg-secondary border-secondary" aria-current="true">
+			{{comm.author.fullname }} {{ comm.created_at|date:"d.m.Y" }}
 		</li>
 		<li class="list-group-item border-2">{{ comm.text }}</li>
 	</ul>

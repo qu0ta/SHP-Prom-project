@@ -4,8 +4,7 @@ import random
 
 
 def _author_directory_path(instance, filename):
-    return "user_{0}/image_{1}.{2}".format(instance.author.id,  random.randint(1, 10000000),
-                                           filename.split('.')[-1])
+    return "user_{0}/image_{1}".format(instance.author.id,  filename)
 
 
 class User(models.Model):
