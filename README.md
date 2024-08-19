@@ -6,7 +6,7 @@
 
  1. Склонируйте репозиторий: 
  
-	`git clone https://gitlab.informatics.ru/stanislaw/final-prom-project.git`
+	`git clone https://github.com/qu0ta/SHP-Prom-project.git`
 
 2. Установить версию Python>=3.9
 3. Создать и активировать виртуальное окружение:
