@@ -37,8 +37,10 @@ def create_comment(author: User, news: News, text: str, created_at=None) -> None
 
 
 def get_comments_by_news_id(news_id: int) -> list[Comment]:
-	return Comment.objects.filter(news=News.objects.get(pk=news_id))
-
+	try:
+		return Comment.objects.filter(news=News.objects.get(pk=news_id))
+	except News.DoesNotExist:
+		return []
 
 def create_base_user(password: str, username: str) -> BaseUser:
 	user = BaseUser.objects.create_user(
@@ -47,7 +49,7 @@ def create_base_user(password: str, username: str) -> BaseUser:
 	return user
 
 
-def create_user(fullname: str, birthdate: datetime.date, email: str, about: str, username: str) -> None:
+def create_user(username: str, fullname: str = None, birthdate: datetime.date = None, email: str = None, about: str = None, ) -> None:
 	User.objects.create(
 		fullname=fullname,
 		birthday=birthdate,

@@ -75,6 +75,10 @@ def all_news_view(request: WSGIRequest):
 @login_required(login_url='/registration')
 def one_news_view(request: WSGIRequest, id: int):
 	user = get_user_by_username(request.user.username)
+	if not user:
+		create_user(username=request.user.username)
+		user = get_user_by_username(request.user.username)
+
 	if request.method == 'POST':
 		if title := request.POST.get('news_search', None):
 			news = get_news_by_title(title)
@@ -88,8 +92,9 @@ def one_news_view(request: WSGIRequest, id: int):
 		if form.is_valid():
 			comment_text = form.cleaned_data['text']
 			news = get_news(news_id=id)
-			create_comment(author=user, news=news, text=comment_text)
-			return redirect(f'/news/{id}')
+			if news:
+				create_comment(author=user, news=news, text=comment_text)
+				return redirect(f'/news/{id}')
 		else:
 			errors = form.errors
 			print(errors)
@@ -139,13 +144,17 @@ def registration_view(request: WSGIRequest):
 
 			user = create_base_user(password, username)
 
-			create_user(fullname, birthdate, email, about, username)
+			create_user(username=username, birthdate=birthdate, fullname=fullname, about=about, email=email)
 			login(request, user)
 			return redirect('/')
 
 		errors = form.errors
-		print(errors)
-		return
+		context = {
+			'form': form,
+			'errors': errors,
+			'page_title': 'Регистрация'
+		}
+		return render(request, 'pages/registration.html', context=context)
 
 	form = RegisterUserForm()
 
@@ -197,7 +206,8 @@ def profile_view(request: WSGIRequest):
 			}
 			return render(request, 'pages/all_news.html', context=context)
 	user = get_user_by_username(request.user.username)
-	context = {'user': user}
+	context = {'user': user,
+			'page_title': 'Профиль'}
 	context = check_auth_to_context(request, context)
 	return render(request, 'pages/profile.html', context)
 
