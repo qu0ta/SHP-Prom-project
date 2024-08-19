@@ -4,12 +4,19 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import redirect, render
 
 from .forms import CommentForm, RegisterUserForm, LoginUserForm
-from .news_services import (create_comment, get_all_news,
-							get_comments_by_news_id, get_last_news, get_news,
-							get_user_by_username, create_base_user, create_user, check_auth_to_context)
+from .news_services import *
 
 
 def home_view(request: WSGIRequest):
+	if request.method == 'POST':
+		if title := request.POST['news_search']:
+			news = get_news_by_title(title)
+			context = {
+				'news': news,
+				'page_title': 'Главная',
+				'username': request.user.username,
+			}
+			return render(request, 'pages/all_news.html', context=context)
 	request_user = request.user
 	if request_user.is_authenticated:
 		username = request_user.username
@@ -25,11 +32,19 @@ def home_view(request: WSGIRequest):
 		'news': last_news,
 	}
 	context = check_auth_to_context(request, context)
-	print(context['auth'])
 	return render(request, 'pages/home.html', context)
 
 
 def about_view(request: WSGIRequest):
+	if request.method == 'POST':
+		if title := request.POST['news_search']:
+			news = get_news_by_title(title)
+			context = {
+				'news': news,
+				'page_title': 'Главная',
+				'username': request.user.username,
+			}
+			return render(request, 'pages/all_news.html', context=context)
 	context = {
 		'page_title': 'О нас',
 	}
@@ -39,6 +54,15 @@ def about_view(request: WSGIRequest):
 
 @login_required(login_url='/registration')
 def all_news_view(request: WSGIRequest):
+	if request.method == 'POST':
+		if title := request.POST['news_search']:
+			news = get_news_by_title(title)
+			context = {
+				'news': news,
+				'page_title': 'Главная',
+				'username': request.user.username,
+			}
+			return render(request, 'pages/all_news.html', context=context)
 	news = get_all_news()
 	context = {
 		'page_title': 'Все новости',
@@ -52,6 +76,14 @@ def all_news_view(request: WSGIRequest):
 def one_news_view(request: WSGIRequest, id: int):
 	user = get_user_by_username(request.user.username)
 	if request.method == 'POST':
+		if title := request.POST['news_search']:
+			news = get_news_by_title(title)
+			context = {
+				'news': news,
+				'page_title': 'Главная',
+				'username': request.user.username,
+			}
+			return render(request, 'pages/all_news.html', context=context)
 		form = CommentForm(request.POST)
 		if form.is_valid():
 			comment_text = form.cleaned_data['text']
@@ -88,6 +120,14 @@ def one_news_view(request: WSGIRequest, id: int):
 
 def registration_view(request: WSGIRequest):
 	if request.method == 'POST':
+		if title := request.POST['news_search']:
+			news = get_news_by_title(title)
+			context = {
+				'news': news,
+				'page_title': 'Главная',
+				'username': request.user.username,
+			}
+			return render(request, 'pages/all_news.html', context=context)
 		form = RegisterUserForm(request.POST)
 		if form.is_valid():
 			username = form.cleaned_data['username']
@@ -111,6 +151,7 @@ def registration_view(request: WSGIRequest):
 
 	context = {
 		'form': form,
+		'page_title': 'Регистрация'
 	}
 	context = check_auth_to_context(request, context)
 
@@ -119,6 +160,14 @@ def registration_view(request: WSGIRequest):
 
 def login_view(request: WSGIRequest):
 	if request.method == 'POST':
+		if title := request.POST['news_search']:
+			news = get_news_by_title(title)
+			context = {
+				'news': news,
+				'page_title': 'Главная',
+				'username': request.user.username,
+			}
+			return render(request, 'pages/all_news.html', context=context)
 		form = LoginUserForm(request.POST)
 		if form.is_valid():
 			username = form.cleaned_data['username']
@@ -138,6 +187,15 @@ def login_view(request: WSGIRequest):
 
 @login_required(login_url='/registration')
 def profile_view(request: WSGIRequest):
+	if request.method == 'POST':
+		if title := request.POST['news_search']:
+			news = get_news_by_title(title)
+			context = {
+				'news': news,
+				'page_title': 'Главная',
+				'username': request.user.username,
+			}
+			return render(request, 'pages/all_news.html', context=context)
 	user = get_user_by_username(request.user.username)
 	context = {'user': user}
 	context = check_auth_to_context(request, context)

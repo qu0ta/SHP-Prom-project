@@ -10,8 +10,9 @@
 		<a class="navbar-brand text-light fs-3" href="{% url 'home' %}">EduNews</a>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			{% block header %} {% endblock %}
-			<form class="d-flex my-auto">
-				<input class="form-control me-2" type="search" placeholder="Поиск новости..." aria-label="Search">
+			<form class="d-flex my-auto" method="post">
+				{% csrf_token %}
+				<input class="form-control me-2" type="search" placeholder="Поиск новости..." aria-label="Search" name="news_search">
 				<button class="btn btn-light" type="submit">Найти</button>
 			</form>
 		</div>

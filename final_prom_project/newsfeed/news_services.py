@@ -62,3 +62,21 @@ def check_auth_to_context(request: WSGIRequest, context: dict) -> dict:
 	auth = True if user.is_authenticated else False
 	context['auth'] = auth
 	return context
+
+
+def get_news_by_title(title: str) -> list[News]:
+	return News.objects.filter(title__contains=title)
+
+
+__all__ = [
+	'create_comment',
+	'get_all_news',
+	'get_comments_by_news_id',
+	'get_last_news',
+	'get_news',
+	'get_user_by_username',
+	'create_base_user',
+	'create_user',
+	'check_auth_to_context',
+	'get_news_by_title',
+]
